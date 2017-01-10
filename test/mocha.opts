@@ -1,0 +1,2 @@
+--compilers ts:ts-babel-node/register
+--recursive
