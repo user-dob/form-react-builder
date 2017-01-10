@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "module": "es6",
+    "target": "es6",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "sourceMap": false,
+    "jsx": "react"
+  },
+  "compileOnSave": false,
+  "include": [
+    "node_modules/@types/mocha/index.d.ts",
+    "node_modules/@types/reflect-metadata/index.d.ts"
+  ]
+}
