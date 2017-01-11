@@ -1,16 +1,16 @@
 import {Validator} from '../Validator'
-import {IConstraint, IConstraintInfo} from '../interfaces'
+import {IConstraint, IConstraintInfo, IValidatorResult} from '../interfaces'
 
 export class EmailConstraint implements IConstraint {
 
-  message: string = 'This value is not a valid email address.'
+  private message: string = 'This value is not a valid email address.'
 
-  test(value: any, model: Object): boolean {
+  test(value: any, model: Object): Promise<IValidatorResult> {
     if (/\S+@\S+\.\S+/.test(value)) {
-      return true
+      return Validator.success()
     }
 
-    return false
+    return Validator.fail(this.getInfo())
   }
 
   getInfo(): IConstraintInfo {

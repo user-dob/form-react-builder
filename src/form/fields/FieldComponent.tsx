@@ -41,14 +41,17 @@ export abstract class FieldComponent extends React.Component<IFieldProps, IField
 
   isValid(): Promise<boolean> {
     const {props, state} = this
-    let errors = props.validator(state.value).map(violation => violation.info.message)
 
-    return new Promise<boolean>(resolve => {
-      this.setState({
-        value: state.value,
-        errors
-      }, () => {
-        resolve(!this.hasError)
+    return props.validator(state.value).then(violations => {
+      const errors = violations.map(violation => violation.info.message)
+
+      return new Promise<boolean>(resolve => {
+        this.setState({
+          value: state.value,
+          errors
+        }, () => {
+          resolve(!this.hasError)
+        })
       })
     })
   }

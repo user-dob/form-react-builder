@@ -1,5 +1,5 @@
 import { Validator } from '../Validator'
-import { IConstraint, IConstraintInfo } from '../interfaces'
+import { IConstraint, IConstraintInfo, IValidatorResult } from '../interfaces'
 
 export class EqualToConstraint implements IConstraint {
 
@@ -11,12 +11,12 @@ export class EqualToConstraint implements IConstraint {
     this.compared = compared
   }
 
-  test(value: any, model: Object): boolean {
+  test(value: any, model: Object): Promise<IValidatorResult> {
     if(value === model[this.compared]) {
-      return true
+      return Validator.success()
     }
 
-    return false
+    return Validator.fail(this.getInfo())
   }
 
   getInfo(): IConstraintInfo {

@@ -9,7 +9,7 @@ export interface IOptions {
 export interface IFieldProps {
   propertyKey: string
   value: any
-  validator: (value: any) => Array<Violation>
+  validator: (value: any) => Promise<Violation[]>
   form: FormBuilder
   options?: IOptions
 }

@@ -1,9 +1,9 @@
-import { IConstraint } from './interfaces'
+import { IConstraint, IValidatorResult } from './interfaces'
 import { Violation } from './Violation'
 
 export class ValidatorBuilder {
 
-  private violations: Array<Violation> = new Array<Violation>()
+  private constraints: Array<IConstraint> = []
 
   private model: Object
 
@@ -14,15 +14,21 @@ export class ValidatorBuilder {
     this.value = value
   }
 
-  validate(constraint: IConstraint) {
-    if(!constraint.test(this.value, this.model)) {
-      let violation = new Violation(constraint.getInfo())
-      this.violations.push(violation)
-    }
+  addConstraint(constraint: IConstraint) {
+    this.constraints.push(constraint)
   }
 
-  getViolations(): Array<Violation> {
-    return this.violations
+  getViolations(): Promise<Violation[]> {
+    const { value, model } = this
+    const violations: Array<Violation> = []
+    const tests = this.constraints.map(constraint => constraint.test(value, model))
+
+    return Promise.all(tests).then((results: Array<IValidatorResult>) => {
+      for(let result of results) {
+        result.addViolation(violations)
+      }
+      return violations
+    })
   }
 
 }

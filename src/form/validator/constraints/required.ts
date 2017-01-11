@@ -1,5 +1,5 @@
 import { Validator } from '../Validator'
-import { IConstraint, IConstraintInfo } from '../interfaces'
+import { IConstraint, IConstraintInfo, IValidatorResult } from '../interfaces'
 
 export interface IRequiredOptions {
   message?: string
@@ -15,12 +15,12 @@ export class RequiredConstraint implements IConstraint {
     }
   }
 
-  test(value: any, model: Object): boolean {
+  test(value: any, model: Object): Promise<IValidatorResult> {
     if(value === null || value === '') {
-      return false
+      return Validator.fail(this.getInfo())
     }
 
-    return true
+    return Validator.success()
   }
 
   getInfo(): IConstraintInfo {
